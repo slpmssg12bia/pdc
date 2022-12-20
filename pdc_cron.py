@@ -4,7 +4,7 @@ import zipfile, requests, os, subprocess
 from io import BytesIO
 
 #first script
-dump_folder = "pecosdump"
+dump_folder = "pdcdump"
 
 if not os.path.exists(dump_folder):
     os.mkdir(dump_folder)
