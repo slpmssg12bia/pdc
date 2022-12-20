@@ -72,6 +72,9 @@ def download2(url):
     content.seek(0)
     zip_file = zipfile.ZipFile(content)
     zip_file.extractall(dump_folder)
+    
+    subprocess.run(["bash", "/home/ubuntu/pdc/pdc_dump_to_s3.sh"])
+    subprocess.run(["bash", "/home/ubuntu/pdc/pdc_clean.sh"])
 
 url = get_url()
 download2(url)
