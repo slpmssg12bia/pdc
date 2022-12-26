@@ -43,6 +43,17 @@ cd pdc
 ```
 # Recreate bash Files
 ```
+
+touch pdc_archive_s3.sh
+nano pdc_archive_s3.sh
+
+#!/bin/bash
+aws s3 sync pdcdump/ s3://viquity-database-import-us-east-1/Jobs/pdc/pdc_archive/pdcdump-"$(date +%d-%m-%y-%H-%M)"/
+
+ctrl X
+Y
+
+---------------------------------
 touch pdc_clean.sh
 nano pdc_clean.sh
 
@@ -52,15 +63,6 @@ rm -rf pdcdump
 ctrl X
 Y
 ---------------------------------
-touch pdc_dump_to_s3.sh
-nano pdc_dump_to_s3.sh
-
-#!/bin/bash
-aws s3 sync pdcdump/ s3://viquity-database-import-us-east-1/Jobs/pdc/pdcdump-"$(date +%d-%m-%y-%H-%M)"/
-
-ctrl X
-Y
-------------------------
 touch pdc_cron.sh
 nano pdc_cron.sh
 
@@ -70,15 +72,37 @@ python3 pdc_cron.py
 
 ctrl X
 Y
+---------------------------------
+
+touch pdc_dump_to_s3.sh
+nano pdc_dump_to_s3.sh
+
+#!/bin/bash
+aws s3 sync pdcdump/ s3://viquity-database-import-us-east-1/Jobs/pdc/pdc_current_dump/pdcdump/
+
+ctrl X
+Y
+---------------------------------
+
+touch pdc_remove_old_dump.sh
+nano pdc_remove_old_dump.sh
+
+#!/bin/bash
+aws s3 rm s3://viquity-database-import-us-east-1/Jobs/pdc/pdc_current_dump --recursive
+
+ctrl X
+Y
 ```
+
 # Delete Original bash files
 ```
-rm clean.sh  dump_to_s3.sh  cron.sh
+rm archive_s3.sh  clean.sh  cron.sh  dump_to_s3.sh  remove_old_dump.sh 
 ```
 
 # Change Permissions of bash Files
 ```
-chmod +x   pdc_clean.sh  pdc_dump_to_s3.sh  pdc_cron.sh
+chmod +x   pdc_archive_s3.sh  pdc_clean.sh  pdc_cron.sh  pdc_dump_to_s3.sh  pdc_remove_old_dump.sh     
+
 ```
 
 # install pip dependencies
